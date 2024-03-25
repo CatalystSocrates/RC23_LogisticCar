@@ -33,3 +33,16 @@ car\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 car\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 car\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 car\stm32f1xx_hal_msp.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+car\stm32f1xx_hal_msp.o: ../MDK-ARM/st7735.h
+car\stm32f1xx_hal_msp.o: ../Core/Inc/main.h
+car\stm32f1xx_hal_msp.o: ../Core/Inc/spi.h
+car\stm32f1xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+car\stm32f1xx_hal_msp.o: ../MDK-ARM/mpu6050.h
+car\stm32f1xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
+car\stm32f1xx_hal_msp.o: ./DMP/inv_mpu.h
+car\stm32f1xx_hal_msp.o: ./DMP/inv_mpu_dmp_motion_driver.h
+car\stm32f1xx_hal_msp.o: ../MDK-ARM/KF.h
+car\stm32f1xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+car\stm32f1xx_hal_msp.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+car\stm32f1xx_hal_msp.o: ../MDK-ARM/TCS34725.h
+car\stm32f1xx_hal_msp.o: ../MDK-ARM/delayus.h

@@ -35,3 +35,15 @@ car\mpu6050.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
 car\mpu6050.o: mpu6050.h
 car\mpu6050.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
 car\mpu6050.o: ../Core/Inc/main.h
+car\mpu6050.o: ../MDK-ARM/st7735.h
+car\mpu6050.o: ../Core/Inc/main.h
+car\mpu6050.o: ../Core/Inc/spi.h
+car\mpu6050.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+car\mpu6050.o: ../MDK-ARM/mpu6050.h
+car\mpu6050.o: ./DMP/inv_mpu.h
+car\mpu6050.o: ./DMP/inv_mpu_dmp_motion_driver.h
+car\mpu6050.o: ../MDK-ARM/KF.h
+car\mpu6050.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+car\mpu6050.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+car\mpu6050.o: ../MDK-ARM/TCS34725.h
+car\mpu6050.o: ../MDK-ARM/delayus.h

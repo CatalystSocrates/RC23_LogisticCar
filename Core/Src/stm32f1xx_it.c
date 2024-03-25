@@ -27,6 +27,10 @@
 #include "inv_mpu.h"
 #include "stdio.h"
 #include "TCS34725.h"
+#include "show.h"
+#include "encoder.h"
+#include "DataScop_DP.h"
+#include "control.h"	
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -37,8 +41,10 @@ extern short aacx,aacy,aacz;
 extern short gyrox,gyroy,gyroz;		
 extern float temp;
 extern float Aacx,Aacy,Aacz,Gyrox,Gyroy;
-COLOR_RGBC rgb;
-COLOR_HSL hsl;
+extern int Moto;
+extern int EncoderA,EncoderB,EncoderC,Target_Velocity; //编码器的脉冲计数
+extern float Velocity_KP,Velocity_KI,Velocity_KD; //PID系数
+extern COLOR_HSL hsl;
 /* USER CODE END TD */
 
 /* Private define ------------------------------------------------------------*/
@@ -67,11 +73,17 @@ COLOR_HSL hsl;
 /* USER CODE END 0 */
 
 /* External variables --------------------------------------------------------*/
+extern TIM_HandleTypeDef htim3;
+extern TIM_HandleTypeDef htim4;
 extern TIM_HandleTypeDef htim6;
+extern TIM_HandleTypeDef htim7;
+extern TIM_HandleTypeDef htim8;
 extern DMA_HandleTypeDef hdma_usart1_tx;
 extern DMA_HandleTypeDef hdma_usart1_rx;
 extern UART_HandleTypeDef huart1;
 extern UART_HandleTypeDef huart2;
+extern TIM_HandleTypeDef htim2;
+
 /* USER CODE BEGIN EV */
 
 /* USER CODE END EV */
@@ -201,7 +213,7 @@ void SysTick_Handler(void)
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
   /* USER CODE END SysTick_IRQn 0 */
-  HAL_IncTick();
+
   /* USER CODE BEGIN SysTick_IRQn 1 */
 
   /* USER CODE END SysTick_IRQn 1 */
@@ -243,6 +255,48 @@ void DMA1_Channel5_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles TIM2 global interrupt.
+  */
+void TIM2_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM2_IRQn 0 */
+
+  /* USER CODE END TIM2_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim2);
+  /* USER CODE BEGIN TIM2_IRQn 1 */
+
+  /* USER CODE END TIM2_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM3 global interrupt.
+  */
+void TIM3_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM3_IRQn 0 */
+
+  /* USER CODE END TIM3_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim3);
+  /* USER CODE BEGIN TIM3_IRQn 1 */
+
+  /* USER CODE END TIM3_IRQn 1 */
+}
+
+/**
+  * @brief This function handles TIM4 global interrupt.
+  */
+void TIM4_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM4_IRQn 0 */
+
+  /* USER CODE END TIM4_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim4);
+  /* USER CODE BEGIN TIM4_IRQn 1 */
+
+  /* USER CODE END TIM4_IRQn 1 */
+}
+
+/**
   * @brief This function handles USART1 global interrupt.
   */
 void USART1_IRQHandler(void)
@@ -271,12 +325,26 @@ void USART2_IRQHandler(void)
 }
 
 /**
+  * @brief This function handles TIM8 update interrupt.
+  */
+void TIM8_UP_IRQHandler(void)
+{
+  /* USER CODE BEGIN TIM8_UP_IRQn 0 */
+
+  /* USER CODE END TIM8_UP_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim8);
+  /* USER CODE BEGIN TIM8_UP_IRQn 1 */
+
+  /* USER CODE END TIM8_UP_IRQn 1 */
+}
+
+/**
   * @brief This function handles TIM6 global interrupt.
   */
 void TIM6_IRQHandler(void)
 {
   /* USER CODE BEGIN TIM6_IRQn 0 */
-
+	
   /* USER CODE END TIM6_IRQn 0 */
   HAL_TIM_IRQHandler(&htim6);
   /* USER CODE BEGIN TIM6_IRQn 1 */
@@ -284,23 +352,25 @@ void TIM6_IRQHandler(void)
   /* USER CODE END TIM6_IRQn 1 */
 }
 
-/* USER CODE BEGIN 1 */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+/**
+  * @brief This function handles TIM7 global interrupt.
+  */
+void TIM7_IRQHandler(void)
 {
-	if (htim->Instance == TIM6)
-  {
-		TCS34725_GET_RGB(&rgb);
-		RGBtoHSL(&rgb, &hsl);
-		//while(mpu_dmp_get_data(&pitch, &roll, &yaw));	
-		MPU_Get_Accelerometer(&aacx,&aacy, &aacz);		
-    MPU_Get_Gyroscope(&gyrox, &gyroy, &gyroz);		
-    temp=MPU_Get_Temperature();		
-		Aacx=aacx/1671.84;
-		Aacy=aacy/1671.84;
-		Aacz=aacz/1671.84;
-		Gyrox=gyrox/939.8;
-		Gyroy=gyroy/939.8;		
-		//printf("123");
-  }
+  /* USER CODE BEGIN TIM7_IRQn 0 */
+	EncoderA=2*Read_Velocity(8);
+	EncoderB=2*Read_Velocity(3);
+	EncoderC=2*Read_Velocity(4);
+	//Moto=Incremental_PI(Encoder,Target_Velocity); 
+	//Xianfu_Pwm(); 
+  //Set_Pwm(Moto);
+  /* USER CODE END TIM7_IRQn 0 */
+  HAL_TIM_IRQHandler(&htim7);
+  /* USER CODE BEGIN TIM7_IRQn 1 */
+
+  /* USER CODE END TIM7_IRQn 1 */
 }
+
+/* USER CODE BEGIN 1 */
+
 /* USER CODE END 1 */

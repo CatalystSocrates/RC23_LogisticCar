@@ -34,8 +34,6 @@ extern "C" {
 
 extern TIM_HandleTypeDef htim1;
 
-extern TIM_HandleTypeDef htim2;
-
 extern TIM_HandleTypeDef htim3;
 
 extern TIM_HandleTypeDef htim4;
@@ -53,7 +51,6 @@ extern TIM_HandleTypeDef htim8;
 /* USER CODE END Private defines */
 
 void MX_TIM1_Init(void);
-void MX_TIM2_Init(void);
 void MX_TIM3_Init(void);
 void MX_TIM4_Init(void);
 void MX_TIM5_Init(void);
@@ -109,6 +106,25 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 #define PWMB   TIM1->CCR2
 #define PWMC   TIM1->CCR3
 #define PWMD   TIM1->CCR4
+#define PWME   TIM5->CCR1
+#define PWMF   TIM5->CCR2
+#define PWMG   TIM5->CCR3
+#define PWMH   TIM5->CCR4
+#define PWMI   TIM8->CCR3
+#define PWMJ   TIM8->CCR4
+#define PWMK   TIM4->CCR3
+#define PWML   TIM4->CCR4
+
+#define AIN1 PBout(0);
+#define AIN2 PBout(1);
+#define BIN1 PCout(0);
+#define BIN2 PCout(1);
+#define CIN1 PCout(2);
+#define CIN2 PCout(3);
+#define DIN1 PCout(4);
+#define DIN2 PCout(5);
+
+
 /* USER CODE END Prototypes */
 
 #ifdef __cplusplus

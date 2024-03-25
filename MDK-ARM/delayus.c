@@ -2,7 +2,7 @@
 #include "main.h"
 
 __IO float usDelayBase;
-void PY_usDelayTest(void)
+void usDelayTest(void)
 {
   __IO uint32_t firstms, secondms;
   __IO uint32_t counter = 0;
@@ -17,7 +17,7 @@ void PY_usDelayTest(void)
   usDelayBase = ((float)counter)/1000;
 }
 
-void PY_Delay_us_t(uint32_t Delay)
+void Delay_us_t(uint32_t Delay)
 {
   __IO uint32_t delayReg;
   __IO uint32_t usNum = (uint32_t)(Delay*usDelayBase);
@@ -26,20 +26,20 @@ void PY_Delay_us_t(uint32_t Delay)
   while(delayReg!=usNum) delayReg++;
 }
 
-void PY_usDelayOptimize(void)
+void usDelayOptimize(void)
 {
   __IO uint32_t firstms, secondms;
   __IO float coe = 1.0;
 
   firstms = HAL_GetTick();
-  PY_Delay_us_t(1000000) ;
+  Delay_us_t(1000000) ;
   secondms = HAL_GetTick();
 
   coe = ((float)1000)/(secondms-firstms);
   usDelayBase = coe*usDelayBase;
 }
 
-void PY_Delay_us(uint32_t Delay)
+void Delay_us(uint32_t Delay)
 {
   __IO uint32_t delayReg;
 

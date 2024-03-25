@@ -97,13 +97,13 @@ typedef struct{
 
 
 
-void I2C_Init(void);
-void I2C_Start(void);
-void I2C_Stop(void);
-void I2C_Write_Ack(void);
-uint8_t I2C_Read_Ack(void);
-void I2C_Send_Byte(uint8_t txd);
-uint8_t I2C_Read_Byte(unsigned char rdack);
+void TCS34725_I2C_Init(void);
+void TCS34725_I2C_Start(void);
+void TCS34725_I2C_Stop(void);
+void TCS34725_I2C_Write_Ack(void);
+uint8_t TCS34725_I2C_Read_Ack(void);
+void TCS34725_I2C_Send_Byte(uint8_t txd);
+uint8_t TCS34725_I2C_Read_Byte(unsigned char rdack);
 void TCS3472_WRITE( uint8_t WrAddr, uint8_t data);
 uint8_t TCS3472_READ_1Byte( uint8_t RdAddr);
 uint16_t TCS3472_READ_2Byte( uint8_t RdAddr);
@@ -119,8 +119,6 @@ uint8_t TCS3472_ID_Verification(void);
 void TCS34725_Init(void);
 void TCS34725_GET_RGB(COLOR_RGBC *Rgb);
 const char* mapRGBCtoColor(float hue, float saturation, float Lightness);
-
 void RGBtoHSL(COLOR_RGBC *Rgb, COLOR_HSL *Hsl);
-//void RGBtoHSL(COLOR_RGBC *Rgb, COLOR_HSL *Hsl);
 
 #endif

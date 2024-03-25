@@ -47,3 +47,4 @@ car\encoder.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 car\encoder.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 car\encoder.o: ../MDK-ARM/TCS34725.h
 car\encoder.o: ../MDK-ARM/delayus.h
+car\encoder.o: ../Core/Inc/tim.h

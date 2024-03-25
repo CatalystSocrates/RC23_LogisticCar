@@ -48,3 +48,6 @@ car\show.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
 car\show.o: ../MDK-ARM/TCS34725.h
 car\show.o: ../MDK-ARM/delayus.h
 car\show.o: ../Core/Inc/tim.h
+car\show.o: encoder.h
+car\show.o: DataScop_DP.h
+car\show.o: ../Core/Inc/usart.h

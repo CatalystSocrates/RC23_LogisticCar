@@ -9,25 +9,25 @@
 #define IIC_WR	0		/* 写控制bit */
 #define IIC_RD	1		/* 读控制bit */
 
-void IIC_Start(void);
-void IIC_Stop(void);
-void IIC_Send_Byte(uint8_t _ucByte);
-uint8_t IIC_Read_Byte(uint8_t ack);
-uint8_t IIC_Wait_Ack(void);
-void IIC_Ack(void);
-void IIC_NAck(void);
-uint8_t IIC_CheckDevice(uint8_t _Address);
-void IIC_GPIO_Init(void);
+void MPU_IIC_Start(void);
+void MPU_IIC_Stop(void);
+void MPU_IIC_Send_Byte(uint8_t _ucByte);
+uint8_t MPU_IIC_Read_Byte(uint8_t ack);
+uint8_t MPU_IIC_Wait_Ack(void);
+void MPU_IIC_Ack(void);
+void MPU_IIC_NAck(void);
+uint8_t MPU_IIC_CheckDevice(uint8_t _Address);
+void MPU_IIC_GPIO_Init(void);
 
 #endif
 
 #define delay_ms				HAL_Delay
-#define MPU_IIC_Init			IIC_GPIO_Init
-#define MPU_IIC_Start			IIC_Start
-#define MPU_IIC_Stop			IIC_Stop
-#define MPU_IIC_Send_Byte		IIC_Send_Byte
-#define MPU_IIC_Read_Byte		IIC_Read_Byte
-#define MPU_IIC_Wait_Ack		IIC_Wait_Ack
+#define MPU_IIC_Init			MPU_IIC_GPIO_Init
+#define MPU_IIC_Start			MPU_IIC_Start
+#define MPU_IIC_Stop			MPU_IIC_Stop
+#define MPU_IIC_Send_Byte		MPU_IIC_Send_Byte
+#define MPU_IIC_Read_Byte		MPU_IIC_Read_Byte
+#define MPU_IIC_Wait_Ack		MPU_IIC_Wait_Ack
 
 //#define MPU_ACCEL_OFFS_REG		0X06	//accel_offs寄存器,可读取版本号,寄存器手册未提到
 //#define MPU_PROD_ID_REG			0X0C	//prod id寄存器,在寄存器手册未提到

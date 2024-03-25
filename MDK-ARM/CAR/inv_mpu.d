@@ -41,4 +41,11 @@ car\inv_mpu.o: DMP\inv_mpu_dmp_motion_driver.h
 car\inv_mpu.o: ../MDK-ARM/mpu6050.h
 car\inv_mpu.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
 car\inv_mpu.o: ../Core/Inc/main.h
+car\inv_mpu.o: ../MDK-ARM/st7735.h
+car\inv_mpu.o: ../Core/Inc/main.h
+car\inv_mpu.o: ../Core/Inc/spi.h
+car\inv_mpu.o: ../MDK-ARM/mpu6050.h
+car\inv_mpu.o: ../MDK-ARM/KF.h
+car\inv_mpu.o: ../MDK-ARM/TCS34725.h
+car\inv_mpu.o: ../MDK-ARM/delayus.h
 car\inv_mpu.o: ../Core/Inc/usart.h

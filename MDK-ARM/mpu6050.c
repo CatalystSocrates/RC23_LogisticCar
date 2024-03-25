@@ -4,32 +4,32 @@
 #include "stm32f1xx_hal.h"
 
 /* 定义IIC总线连接的GPIO端口, 用户只需要修改下面4行代码即可任意改变SCL和SDA的引脚 */
-#define GPIO_PORT_IIC     MPU6050_SDA_GPIO_Port                       /* GPIO端口 */
-#define RCC_IIC_ENABLE    __HAL_RCC_GPIOB_CLK_ENABLE()       /* GPIO端口时钟 */
-#define IIC_SCL_PIN       MPU6050_SCL_Pin                  /* 连接到SCL时钟线的GPIO */
-#define IIC_SDA_PIN       MPU6050_SDA_Pin                  /* 连接到SDA数据线的GPIO */
+#define MPU_GPIO_PORT_IIC     MPU6050_SDA_GPIO_Port                       /* GPIO端口 */
+#define MPU_RCC_IIC_ENABLE    __HAL_RCC_GPIOB_CLK_ENABLE()       /* GPIO端口时钟 */
+#define MPU_IIC_SCL_PIN       MPU6050_SCL_Pin                  /* 连接到SCL时钟线的GPIO */
+#define MPU_IIC_SDA_PIN       MPU6050_SDA_Pin                  /* 连接到SDA数据线的GPIO */
 
 /* 定义读写SCL和SDA的宏，已增加代码的可移植性和可阅读性 */
 #if 1	/* 条件编译： 1 选择GPIO的库函数实现IO读写 */
-#define IIC_SCL_1()  HAL_GPIO_WritePin(GPIO_PORT_IIC, IIC_SCL_PIN, GPIO_PIN_SET)		/* SCL = 1 */
-#define IIC_SCL_0()  HAL_GPIO_WritePin(GPIO_PORT_IIC, IIC_SCL_PIN, GPIO_PIN_RESET)		/* SCL = 0 */
+#define MPU_IIC_SCL_1()  HAL_GPIO_WritePin(MPU_GPIO_PORT_IIC, MPU_IIC_SCL_PIN, GPIO_PIN_SET)		/* SCL = 1 */
+#define MPU_IIC_SCL_0()  HAL_GPIO_WritePin(MPU_GPIO_PORT_IIC, MPU_IIC_SCL_PIN, GPIO_PIN_RESET)		/* SCL = 0 */
 
-#define IIC_SDA_1()  HAL_GPIO_WritePin(GPIO_PORT_IIC, IIC_SDA_PIN, GPIO_PIN_SET)		/* SDA = 1 */
-#define IIC_SDA_0()  HAL_GPIO_WritePin(GPIO_PORT_IIC, IIC_SDA_PIN, GPIO_PIN_RESET)		/* SDA = 0 */
+#define MPU_IIC_SDA_1()  HAL_GPIO_WritePin(MPU_GPIO_PORT_IIC, MPU_IIC_SDA_PIN, GPIO_PIN_SET)		/* SDA = 1 */
+#define MPU_IIC_SDA_0()  HAL_GPIO_WritePin(MPU_GPIO_PORT_IIC, MPU_IIC_SDA_PIN, GPIO_PIN_RESET)		/* SDA = 0 */
 
-#define IIC_SDA_READ()  HAL_GPIO_ReadPin(GPIO_PORT_IIC, IIC_SDA_PIN)	/* 读SDA口线状态 */
+#define MPU_IIC_SDA_READ()  HAL_GPIO_ReadPin(MPU_GPIO_PORT_IIC, MPU_IIC_SDA_PIN)	/* 读SDA口线状态 */
 #else	/* 这个分支选择直接寄存器操作实现IO读写 */
 /*　注意：如下写法，在IAR最高级别优化时，会被编译器错误优化 */
-#define IIC_SCL_1()  GPIO_PORT_IIC->BSRR = IIC_SCL_PIN				/* SCL = 1 */
-#define IIC_SCL_0()  GPIO_PORT_IIC->BRR = IIC_SCL_PIN				/* SCL = 0 */
+#define MPU_IIC_SCL_1()  MPU_GPIO_PORT_IIC->BSRR = MPU_IIC_SCL_PIN				/* SCL = 1 */
+#define MPU_IIC_SCL_0()  MPU_GPIO_PORT_IIC->BRR = MPU_IIC_SCL_PIN				/* SCL = 0 */
 
-#define IIC_SDA_1()  GPIO_PORT_IIC->BSRR = IIC_SDA_PIN				/* SDA = 1 */
-#define IIC_SDA_0()  GPIO_PORT_IIC->BRR = IIC_SDA_PIN				/* SDA = 0 */
+#define MPU_IIC_SDA_1()  MPU_GPIO_PORT_IIC->BSRR = MPU_IIC_SDA_PIN				/* SDA = 1 */
+#define MPU_IIC_SDA_0()  MPU_GPIO_PORT_IIC->BRR = MPU_IIC_SDA_PIN				/* SDA = 0 */
 
-#define IIC_SDA_READ()  ((GPIO_PORT_IIC->IDR & IIC_SDA_PIN) != 0)	/* 读SDA口线状态 */
+#define MPU_IIC_SDA_READ()  ((MPU_GPIO_PORT_IIC->IDR & MPU_IIC_SDA_PIN) != 0)	/* 读SDA口线状态 */
 #endif
 
-void IIC_GPIO_Init(void);
+void MPU_IIC_GPIO_Init(void);
 
 /*
 *********************************************************************************************************
@@ -39,7 +39,7 @@ void IIC_GPIO_Init(void);
 *	返 回 值: 无
 *********************************************************************************************************
 */
-static void IIC_Delay(void)
+static void MPU_IIC_Delay(void)
 {
     uint8_t i;
 
@@ -63,16 +63,16 @@ static void IIC_Delay(void)
 *	返 回 值: 无
 *********************************************************************************************************
 */
-void IIC_Start(void)
+void MPU_IIC_Start(void)
 {
     /* 当SCL高电平时，SDA出现一个下跳沿表示IIC总线启动信号 */
-    IIC_SDA_1();
-    IIC_SCL_1();
-    IIC_Delay();
-    IIC_SDA_0();
-    IIC_Delay();
-    IIC_SCL_0();
-    IIC_Delay();
+    MPU_IIC_SDA_1();
+    MPU_IIC_SCL_1();
+    MPU_IIC_Delay();
+    MPU_IIC_SDA_0();
+    MPU_IIC_Delay();
+    MPU_IIC_SCL_0();
+    MPU_IIC_Delay();
 }
 
 /*
@@ -83,13 +83,13 @@ void IIC_Start(void)
 *	返 回 值: 无
 *********************************************************************************************************
 */
-void IIC_Stop(void)
+void MPU_IIC_Stop(void)
 {
     /* 当SCL高电平时，SDA出现一个上跳沿表示IIC总线停止信号 */
-    IIC_SDA_0();
-    IIC_SCL_1();
-    IIC_Delay();
-    IIC_SDA_1();
+    MPU_IIC_SDA_0();
+    MPU_IIC_SCL_1();
+    MPU_IIC_Delay();
+    MPU_IIC_SDA_1();
 }
 
 /*
@@ -100,7 +100,7 @@ void IIC_Stop(void)
 *	返 回 值: 无
 *********************************************************************************************************
 */
-void IIC_Send_Byte(uint8_t _ucByte)
+void MPU_IIC_Send_Byte(uint8_t _ucByte)
 {
     uint8_t i;
 
@@ -109,23 +109,61 @@ void IIC_Send_Byte(uint8_t _ucByte)
     {
         if (_ucByte & 0x80)
         {
-            IIC_SDA_1();
+            MPU_IIC_SDA_1();
         }
         else
         {
-            IIC_SDA_0();
+            MPU_IIC_SDA_0();
         }
-        IIC_Delay();
-        IIC_SCL_1();
-        IIC_Delay();
-        IIC_SCL_0();
+        MPU_IIC_Delay();
+        MPU_IIC_SCL_1();
+        MPU_IIC_Delay();
+        MPU_IIC_SCL_0();
         if (i == 7)
         {
-            IIC_SDA_1(); // 释放总线
+            MPU_IIC_SDA_1(); // 释放总线
         }
         _ucByte <<= 1;	/* 左移一个bit */
-        IIC_Delay();
+        MPU_IIC_Delay();
     }
+}
+
+/*
+*********************************************************************************************************
+*	函 数 名: IIC_Ack
+*	功能说明: CPU产生一个ACK信号
+*	形    参：无
+*	返 回 值: 无
+*********************************************************************************************************
+*/
+void MPU_IIC_Ack(void)
+{
+    MPU_IIC_SDA_0();	/* CPU驱动SDA = 0 */
+    MPU_IIC_Delay();
+    MPU_IIC_SCL_1();	/* CPU产生1个时钟 */
+    MPU_IIC_Delay();
+    MPU_IIC_SCL_0();
+    MPU_IIC_Delay();
+    MPU_IIC_SDA_1();	/* CPU释放SDA总线 */
+}
+
+/*
+*********************************************************************************************************
+*	函 数 名: IIC_NAck
+*	功能说明: CPU产生1个NACK信号
+*	形    参：无
+*	返 回 值: 无
+*********************************************************************************************************
+*/
+
+void MPU_IIC_NAck(void)
+{
+    MPU_IIC_SDA_1();	/* CPU驱动SDA = 1 */
+    MPU_IIC_Delay();
+    MPU_IIC_SCL_1();	/* CPU产生1个时钟 */
+    MPU_IIC_Delay();
+    MPU_IIC_SCL_0();
+    MPU_IIC_Delay();
 }
 
 /*
@@ -136,7 +174,7 @@ void IIC_Send_Byte(uint8_t _ucByte)
 *	返 回 值: 读到的数据
 *********************************************************************************************************
 */
-uint8_t IIC_Read_Byte(uint8_t ack)
+uint8_t MPU_IIC_Read_Byte(uint8_t ack)
 {
     uint8_t i;
     uint8_t value;
@@ -146,19 +184,19 @@ uint8_t IIC_Read_Byte(uint8_t ack)
     for (i = 0; i < 8; i++)
     {
         value <<= 1;
-        IIC_SCL_1();
-        IIC_Delay();
-        if (IIC_SDA_READ())
+        MPU_IIC_SCL_1();
+        MPU_IIC_Delay();
+        if (MPU_IIC_SDA_READ())
         {
             value++;
         }
-        IIC_SCL_0();
-        IIC_Delay();
+        MPU_IIC_SCL_0();
+        MPU_IIC_Delay();
     }
     if(ack==0)
-        IIC_NAck();
+        MPU_IIC_NAck();
     else
-        IIC_Ack();
+        MPU_IIC_Ack();
     return value;
 }
 
@@ -170,15 +208,15 @@ uint8_t IIC_Read_Byte(uint8_t ack)
 *	返 回 值: 返回0表示正确应答，1表示无器件响应
 *********************************************************************************************************
 */
-uint8_t IIC_Wait_Ack(void)
+uint8_t MPU_IIC_Wait_Ack(void)
 {
     uint8_t re;
 
-    IIC_SDA_1();	/* CPU释放SDA总线 */
-    IIC_Delay();
-    IIC_SCL_1();	/* CPU驱动SCL = 1, 此时器件会返回ACK应答 */
-    IIC_Delay();
-    if (IIC_SDA_READ())	/* CPU读取SDA口线状态 */
+    MPU_IIC_SDA_1();	/* CPU释放SDA总线 */
+    MPU_IIC_Delay();
+    MPU_IIC_SCL_1();	/* CPU驱动SCL = 1, 此时器件会返回ACK应答 */
+    MPU_IIC_Delay();
+    if (MPU_IIC_SDA_READ())	/* CPU读取SDA口线状态 */
     {
         re = 1;
     }
@@ -186,47 +224,11 @@ uint8_t IIC_Wait_Ack(void)
     {
         re = 0;
     }
-    IIC_SCL_0();
-    IIC_Delay();
+    MPU_IIC_SCL_0();
+    MPU_IIC_Delay();
     return re;
 }
 
-/*
-*********************************************************************************************************
-*	函 数 名: IIC_Ack
-*	功能说明: CPU产生一个ACK信号
-*	形    参：无
-*	返 回 值: 无
-*********************************************************************************************************
-*/
-void IIC_Ack(void)
-{
-    IIC_SDA_0();	/* CPU驱动SDA = 0 */
-    IIC_Delay();
-    IIC_SCL_1();	/* CPU产生1个时钟 */
-    IIC_Delay();
-    IIC_SCL_0();
-    IIC_Delay();
-    IIC_SDA_1();	/* CPU释放SDA总线 */
-}
-
-/*
-*********************************************************************************************************
-*	函 数 名: IIC_NAck
-*	功能说明: CPU产生1个NACK信号
-*	形    参：无
-*	返 回 值: 无
-*********************************************************************************************************
-*/
-void IIC_NAck(void)
-{
-    IIC_SDA_1();	/* CPU驱动SDA = 1 */
-    IIC_Delay();
-    IIC_SCL_1();	/* CPU产生1个时钟 */
-    IIC_Delay();
-    IIC_SCL_0();
-    IIC_Delay();
-}
 
 /*
 *********************************************************************************************************
@@ -236,19 +238,19 @@ void IIC_NAck(void)
 *	返 回 值: 无
 *********************************************************************************************************
 */
-void IIC_GPIO_Init(void)
+void MPU_IIC_GPIO_Init(void)
 {
     GPIO_InitTypeDef GPIO_InitStructure;
 
-    RCC_IIC_ENABLE;	/* 打开GPIO时钟 */
+    MPU_RCC_IIC_ENABLE;	/* 打开GPIO时钟 */
 
-    GPIO_InitStructure.Pin = IIC_SCL_PIN | IIC_SDA_PIN;
+    GPIO_InitStructure.Pin = MPU_IIC_SCL_PIN | MPU_IIC_SDA_PIN;
     GPIO_InitStructure.Speed = GPIO_SPEED_FREQ_HIGH;
     GPIO_InitStructure.Mode = GPIO_MODE_OUTPUT_OD;  	/* 开漏输出 */
-    HAL_GPIO_Init(GPIO_PORT_IIC, &GPIO_InitStructure);
+    HAL_GPIO_Init(MPU_GPIO_PORT_IIC, &GPIO_InitStructure);
 
     /* 给一个停止信号, 复位IIC总线上的所有设备到待机模式 */
-    IIC_Stop();
+    MPU_IIC_Stop();
 }
 
 /*
@@ -259,19 +261,19 @@ void IIC_GPIO_Init(void)
 *	返 回 值: 返回值 0 表示正确， 返回1表示未探测到
 *********************************************************************************************************
 */
-uint8_t IIC_CheckDevice(uint8_t _Address)
+uint8_t MPU_IIC_CheckDevice(uint8_t _Address)
 {
     uint8_t ucAck;
 
-    IIC_GPIO_Init();		/* 配置GPIO */
+    MPU_IIC_GPIO_Init();		/* 配置GPIO */
 
-    IIC_Start();		/* 发送启动信号 */
+    MPU_IIC_Start();		/* 发送启动信号 */
 
     /* 发送设备地址+读写控制bit（0 = w， 1 = r) bit7 先传 */
-    IIC_Send_Byte(_Address|IIC_WR);
-    ucAck = IIC_Wait_Ack();	/* 检测设备的ACK应答 */
+    MPU_IIC_Send_Byte(_Address|IIC_WR);
+    ucAck = MPU_IIC_Wait_Ack();	/* 检测设备的ACK应答 */
 
-    IIC_Stop();			/* 发送停止信号 */
+    MPU_IIC_Stop();			/* 发送停止信号 */
 
     return ucAck;
 }

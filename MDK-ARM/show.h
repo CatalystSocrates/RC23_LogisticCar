@@ -9,5 +9,5 @@ extern "C" {
 
 void screenshow(void);
 
-
+void DataScope(void);
 

@@ -34,3 +34,16 @@ car\gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_spi.h
 car\gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim.h
 car\gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_tim_ex.h
 car\gpio.o: ../Drivers/STM32F1xx_HAL_Driver/Inc/stm32f1xx_hal_uart.h
+car\gpio.o: ../MDK-ARM/st7735.h
+car\gpio.o: ../Core/Inc/main.h
+car\gpio.o: ../Core/Inc/spi.h
+car\gpio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+car\gpio.o: ../MDK-ARM/mpu6050.h
+car\gpio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
+car\gpio.o: ./DMP/inv_mpu.h
+car\gpio.o: ./DMP/inv_mpu_dmp_motion_driver.h
+car\gpio.o: ../MDK-ARM/KF.h
+car\gpio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+car\gpio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+car\gpio.o: ../MDK-ARM/TCS34725.h
+car\gpio.o: ../MDK-ARM/delayus.h

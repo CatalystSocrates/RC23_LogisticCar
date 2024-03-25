@@ -29,15 +29,10 @@
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "st7735.h"
-#include "mpu6050.h"
-#include "inv_mpu.h"
-#include "inv_mpu_dmp_motion_driver.h"
-#include "KF.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h> 
-#include "TCS34725.h"
+#include "show.h"
+#include "encoder.h"
+#include "DataScop_DP.h"
+#include "control.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -47,8 +42,13 @@ short aacx,aacy,aacz;
 short gyrox,gyroy,gyroz;		
 float temp;
 float Aacx,Aacy,Aacz,Gyrox,Gyroy;
-int pwma = 0, pwmb = 0,pwmc = 0, pwmd = 0;
-extern COLOR_HSL hsl;	
+int pwma = 100, pwmb = 100,pwmc = 100, pwmd = 0;
+COLOR_HSL hsl;
+COLOR_RGBC rgb;
+uint32_t EncoderA,EncoderB,EncoderC,Moto; 
+int Target_Velocity=500;
+float Velocity_KP=0.38,Velocity_KI=0.41,Velocity_KD=0.007; //PIDÏµÊý
+
 /* USER CODE END PTD */
 
 /* Private define ------------------------------------------------------------*/
@@ -75,7 +75,7 @@ void SystemClock_Config(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
-
+/*
 uint8_t receivedData[50];
 
 void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
@@ -125,7 +125,10 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 	    HAL_UARTEx_ReceiveToIdle_DMA(&huart1, receivedData, 50);
 		  //__HAL_DMA_DISABLE_IT(&hdma_usart1_rx,DMA_IT_HT);
 	}
+	
 }
+*/
+
 /* USER CODE END 0 */
 
 /**
@@ -160,7 +163,6 @@ int main(void)
   MX_CAN_Init();
   MX_SPI2_Init();
   MX_TIM1_Init();
-  MX_TIM2_Init();
   MX_TIM3_Init();
   MX_TIM4_Init();
   MX_TIM5_Init();
@@ -175,31 +177,39 @@ int main(void)
 	ST7735_Init();
 	MPU_Init();
   mpu_dmp_init();	
-	TCS34725_Init();
+	//TCS34725_Init();
 	HAL_TIM_Base_Start_IT(&htim6);
+	HAL_TIM_Base_Start_IT(&htim3);
+	HAL_TIM_Base_Start_IT(&htim4);
+	HAL_TIM_Base_Start_IT(&htim7);
+	HAL_TIM_Base_Start_IT(&htim8); 
 	//HAL_UART_Receive_IT(&huart1,receiveData,2);
-	HAL_UARTEx_ReceiveToIdle_DMA(&huart1, receivedData, 50);
+	//HAL_UARTEx_ReceiveToIdle_DMA(&huart1, receivedData, 50);
 	//__HAL_DMA_DISABLE_IT(&hdma_usart1_rx,DMA_IT_HT);
+	Setspeeds(3000,3000,PI / 2);
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		//PWMB=1000;
-		ST7735_DrawFloat(5, 10, KF_X(Aacy,Aacz, -Gyrox)*100 , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-    ST7735_DrawFloat(5, 25, KF_Y(Aacx,Aacz, Gyroy)*100 , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		ST7735_DrawData(5, 40, "PWMA:" , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		ST7735_DrawInt(45, 40, PWMA , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		ST7735_DrawData(5, 55, "PWMB:" , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		ST7735_DrawInt(45, 55, PWMB , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		ST7735_DrawData(5, 70, "PWMC:" , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		ST7735_DrawInt(45, 70, PWMC , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		ST7735_DrawData(5, 85, "PWMD:" , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		ST7735_DrawInt(45, 85, PWMD , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		ST7735_DrawString(5,100,mapRGBCtoColor((&hsl)->h, (&hsl)->s, (&hsl)->l),ST7735_WHITE, ST7735_BLACK, &Font_7x10);
+		
+		screenshow();
 		//ST7735_DrawData(5, 75, ((char*)&receivedData) , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		HAL_Delay(50);
+		//DataScope();
+    //printf("PWMG:%d,ENCODER:%d,Target_Velocity:%d,Encoder:%d,Moto:%d",PWMG,HAL_TIM_ReadCapturedValue(&htim8, TIM_CHANNEL_1),Target_Velocity,Encoder,Moto);
+		//printf("Moto:%d",Moto);
+		//printf("Encoder:%d",Encoder);
+		
+		
+		//ST7735_DrawData(5, 40, "EncoderA" , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
+		//ST7735_DrawInt(45, 40, EncoderA , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
+		//ST7735_DrawData(5, 55, "EncoderB" , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
+		//ST7735_DrawInt(45, 55, EncoderB , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
+		//ST7735_DrawData(5, 70, "EncoderC" , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
+		//ST7735_DrawInt(45, 70, EncoderC , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
+		//DataScope();
+		//HAL_Delay(2000);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -257,6 +267,41 @@ void SystemClock_Config(void)
 /* USER CODE BEGIN 4 */
 
 /* USER CODE END 4 */
+
+/**
+  * @brief  Period elapsed callback in non blocking mode
+  * @note   This function is called  when TIM2 interrupt took place, inside
+  * HAL_TIM_IRQHandler(). It makes a direct call to HAL_IncTick() to increment
+  * a global variable "uwTick" used as application time base.
+  * @param  htim : TIM handle
+  * @retval None
+  */
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
+{
+  /* USER CODE BEGIN Callback 0 */
+	if (htim->Instance == TIM6)
+  {
+		//TCS34725_GET_RGB(&rgb);
+		//RGBtoHSL(&rgb, &hsl);
+		//while(mpu_dmp_get_data(&pitch, &roll, &yaw));	
+		MPU_Get_Accelerometer(&aacx,&aacy, &aacz);		
+    MPU_Get_Gyroscope(&gyrox, &gyroy, &gyroz);		
+    temp=MPU_Get_Temperature();		
+		//Aacx=aacx/1671.84;
+		//Aacy=aacy/1671.84;
+		//Aacz=aacz/1671.84;
+		//Gyrox=gyrox/939.8;
+		//Gyroy=gyroy/939.8;		
+		//printf("123");
+  }
+  /* USER CODE END Callback 0 */
+  if (htim->Instance == TIM2) {
+    HAL_IncTick();
+  }
+  /* USER CODE BEGIN Callback 1 */
+
+  /* USER CODE END Callback 1 */
+}
 
 /**
   * @brief  This function is executed in case of error occurrence.

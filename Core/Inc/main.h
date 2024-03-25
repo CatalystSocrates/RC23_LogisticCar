@@ -31,11 +31,27 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
+#include "st7735.h"
+#include "mpu6050.h"
+#include "inv_mpu.h"
+#include "inv_mpu_dmp_motion_driver.h"
+#include "KF.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h> 
+#include "TCS34725.h"
+
 
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
+extern float pitch,roll,yaw; 		    
+extern short aacx,aacy,aacz;			
+extern short gyrox,gyroy,gyroz;		
+extern float temp;
+extern float Aacx,Aacy,Aacz,Gyrox,Gyroy;
+extern int pwma, pwmb,pwmc, pwmd;
 
 /* USER CODE END ET */
 
@@ -57,10 +73,10 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
-#define TCS34725_SCL_Pin GPIO_PIN_3
-#define TCS34725_SCL_GPIO_Port GPIOE
-#define TCS34725_SDA_Pin GPIO_PIN_4
-#define TCS34725_SDA_GPIO_Port GPIOE
+#define TCS34725_SCL_Pin GPIO_PIN_14
+#define TCS34725_SCL_GPIO_Port GPIOC
+#define TCS34725_SDA_Pin GPIO_PIN_15
+#define TCS34725_SDA_GPIO_Port GPIOC
 #define BIN1_Pin GPIO_PIN_0
 #define BIN1_GPIO_Port GPIOC
 #define BIN2_Pin GPIO_PIN_1
@@ -97,8 +113,6 @@ void Error_Handler(void);
 #define PWMC_GPIO_Port GPIOE
 #define PWMD_Pin GPIO_PIN_14
 #define PWMD_GPIO_Port GPIOE
-#define SPI2_RST_Pin GPIO_PIN_11
-#define SPI2_RST_GPIO_Port GPIOB
 #define SPI2_CS_Pin GPIO_PIN_12
 #define SPI2_CS_GPIO_Port GPIOB
 #define SPI2_DC_Pin GPIO_PIN_14
@@ -113,20 +127,14 @@ void Error_Handler(void);
 #define EncoderC1_GPIO_Port GPIOD
 #define EncoderC2_Pin GPIO_PIN_13
 #define EncoderC2_GPIO_Port GPIOD
-#define PWMI_Pin GPIO_PIN_6
-#define PWMI_GPIO_Port GPIOC
-#define PWMJ_Pin GPIO_PIN_7
-#define PWMJ_GPIO_Port GPIOC
-#define PWMK_Pin GPIO_PIN_8
-#define PWMK_GPIO_Port GPIOC
-#define PWML_Pin GPIO_PIN_9
-#define PWML_GPIO_Port GPIOC
+#define EncoderB1_Pin GPIO_PIN_6
+#define EncoderB1_GPIO_Port GPIOC
+#define EncoderB2_Pin GPIO_PIN_7
+#define EncoderB2_GPIO_Port GPIOC
 #define MPU6050_EXIT_Pin GPIO_PIN_8
 #define MPU6050_EXIT_GPIO_Port GPIOA
-#define EncoderB1_Pin GPIO_PIN_15
-#define EncoderB1_GPIO_Port GPIOA
-#define EncoderB2_Pin GPIO_PIN_3
-#define EncoderB2_GPIO_Port GPIOB
+#define SPI2_RST_Pin GPIO_PIN_10
+#define SPI2_RST_GPIO_Port GPIOC
 
 /* USER CODE BEGIN Private defines */
 
