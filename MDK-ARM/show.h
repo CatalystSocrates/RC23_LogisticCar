@@ -5,7 +5,6 @@
 extern "C" {
 #endif
 
-#include "main.h"
 
 void screenshow(void);
 

@@ -42,11 +42,3 @@ car\inv_mpu_dmp_motion_driver.o: DMP\dmpKey.h
 car\inv_mpu_dmp_motion_driver.o: DMP\dmpmap.h
 car\inv_mpu_dmp_motion_driver.o: ../Core/Inc/usart.h
 car\inv_mpu_dmp_motion_driver.o: ../Core/Inc/main.h
-car\inv_mpu_dmp_motion_driver.o: ../MDK-ARM/st7735.h
-car\inv_mpu_dmp_motion_driver.o: ../Core/Inc/main.h
-car\inv_mpu_dmp_motion_driver.o: ../Core/Inc/spi.h
-car\inv_mpu_dmp_motion_driver.o: ../MDK-ARM/mpu6050.h
-car\inv_mpu_dmp_motion_driver.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\inttypes.h
-car\inv_mpu_dmp_motion_driver.o: ../MDK-ARM/KF.h
-car\inv_mpu_dmp_motion_driver.o: ../MDK-ARM/TCS34725.h
-car\inv_mpu_dmp_motion_driver.o: ../MDK-ARM/delayus.h

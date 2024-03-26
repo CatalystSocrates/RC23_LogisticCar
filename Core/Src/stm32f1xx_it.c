@@ -18,33 +18,16 @@
 /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
+//#include "main.h"
 #include "stm32f1xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "main.h"
-#include "mpu6050.h"
-#include "inv_mpu.h"
-#include "stdio.h"
-#include "TCS34725.h"
-#include "show.h"
-#include "encoder.h"
-#include "DataScop_DP.h"
-#include "control.h"	
+#include "system.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN TD */
 
-extern float pitch,roll,yaw; 		    
-extern short aacx,aacy,aacz;			
-extern short gyrox,gyroy,gyroz;		
-extern float temp;
-extern float Aacx,Aacy,Aacz,Gyrox,Gyroy;
-extern int Moto;
-extern int EncoderA,EncoderB,EncoderC,Target_Velocity; //编码器的脉冲计数
-extern float Velocity_KP,Velocity_KI,Velocity_KD; //PID系数
-extern COLOR_HSL hsl;
 /* USER CODE END TD */
 
 /* Private define ------------------------------------------------------------*/

@@ -26,28 +26,13 @@
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
-
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "show.h"
-#include "encoder.h"
-#include "DataScop_DP.h"
-#include "control.h"
+#include "system.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
 /* USER CODE BEGIN PTD */
-float pitch,roll,yaw; 		    
-short aacx,aacy,aacz;			
-short gyrox,gyroy,gyroz;		
-float temp;
-float Aacx,Aacy,Aacz,Gyrox,Gyroy;
-int pwma = 100, pwmb = 100,pwmc = 100, pwmd = 0;
-COLOR_HSL hsl;
-COLOR_RGBC rgb;
-uint32_t EncoderA,EncoderB,EncoderC,Moto; 
-int Target_Velocity=500;
-float Velocity_KP=0.38,Velocity_KI=0.41,Velocity_KD=0.007; //PIDÏµÊý
 
 /* USER CODE END PTD */
 
@@ -193,21 +178,7 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-		
 		screenshow();
-		//ST7735_DrawData(5, 75, ((char*)&receivedData) , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		//DataScope();
-    //printf("PWMG:%d,ENCODER:%d,Target_Velocity:%d,Encoder:%d,Moto:%d",PWMG,HAL_TIM_ReadCapturedValue(&htim8, TIM_CHANNEL_1),Target_Velocity,Encoder,Moto);
-		//printf("Moto:%d",Moto);
-		//printf("Encoder:%d",Encoder);
-		
-		
-		//ST7735_DrawData(5, 40, "EncoderA" , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		//ST7735_DrawInt(45, 40, EncoderA , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		//ST7735_DrawData(5, 55, "EncoderB" , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		//ST7735_DrawInt(45, 55, EncoderB , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		//ST7735_DrawData(5, 70, "EncoderC" , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
-		//ST7735_DrawInt(45, 70, EncoderC , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
 		//DataScope();
 		//HAL_Delay(2000);
     /* USER CODE END WHILE */
@@ -287,12 +258,11 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 		MPU_Get_Accelerometer(&aacx,&aacy, &aacz);		
     MPU_Get_Gyroscope(&gyrox, &gyroy, &gyroz);		
     temp=MPU_Get_Temperature();		
-		//Aacx=aacx/1671.84;
-		//Aacy=aacy/1671.84;
-		//Aacz=aacz/1671.84;
-		//Gyrox=gyrox/939.8;
-		//Gyroy=gyroy/939.8;		
-		//printf("123");
+		Aacx=aacx/1671.84;
+		Aacy=aacy/1671.84;
+		Aacz=aacz/1671.84;
+		Gyrox=gyrox/939.8;
+		Gyroy=gyroy/939.8;		
   }
   /* USER CODE END Callback 0 */
   if (htim->Instance == TIM2) {

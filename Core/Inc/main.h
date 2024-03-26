@@ -31,27 +31,11 @@ extern "C" {
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "st7735.h"
-#include "mpu6050.h"
-#include "inv_mpu.h"
-#include "inv_mpu_dmp_motion_driver.h"
-#include "KF.h"
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h> 
-#include "TCS34725.h"
-
 
 /* USER CODE END Includes */
 
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
-extern float pitch,roll,yaw; 		    
-extern short aacx,aacy,aacz;			
-extern short gyrox,gyroy,gyroz;		
-extern float temp;
-extern float Aacx,Aacy,Aacz,Gyrox,Gyroy;
-extern int pwma, pwmb,pwmc, pwmd;
 
 /* USER CODE END ET */
 

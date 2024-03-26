@@ -2,10 +2,11 @@
 #define ST7735_H
 #ifndef __FONTS_H__
 #define __FONTS_H__
-#include "main.h"
-#include "spi.h"
-#include "stdio.h"
-#include <stdint.h>
+
+typedef unsigned          char uint8_t;
+typedef unsigned short     int uint16_t;
+typedef unsigned           int uint32_t;
+
 #define ST7735_RST_Pin SPI2_RST_Pin
 #define ST7735_RST_GPIO_Port SPI2_RST_GPIO_Port
 #define ST7735_DC_Pin SPI2_DC_Pin
@@ -39,6 +40,33 @@
 #define ST7735_YELLOW  0xFFE0
 #define ST7735_WHITE   0xFFFF
 #define ST7735_COLOR565(r, g, b) (((r & 0xF8) << 8) | ((g & 0xFC) << 3) | ((b & 0xF8) >> 3))
+
+#define ST7735_SLPOUT   0x11
+#define ST7735_FRMCTR1  0xB1
+#define ST7735_FRMCTR2  0xB2
+#define ST7735_FRMCTR3  0xB3
+#define ST7735_INVCTR   0xB4
+#define ST7735_PWCTR1   0xC0
+#define ST7735_PWCTR2   0xC1
+#define ST7735_PWCTR3   0xC2
+#define ST7735_PWCTR4   0xC3
+#define ST7735_PWCTR5   0xC4
+#define ST7735_VMCTR1   0xC5
+#define ST7735_COLMOD   0x3A
+#define ST7735_GMCTRP1  0xE0
+#define ST7735_GMCTRN1  0xE1
+#define ST7735_NORON    0x13
+#define ST7735_DISPON   0x29
+#define ST7735_CASET    0x2A
+#define ST7735_RASET    0x2B
+#define ST7735_RAMWR    0x2C
+#define ST7735_INVOFF   0x20
+#define ST7735_INVON    0x21
+
+#define ST7735_MADCTL     0x36
+#define ST7735_MADCTL_MX  0x40
+#define ST7735_MADCTL_MY  0x80
+#define ST7735_MADCTL_MV  0x20
 
 typedef struct {
     const uint8_t width;

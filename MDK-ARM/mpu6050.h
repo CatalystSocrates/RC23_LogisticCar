@@ -4,8 +4,7 @@
 #ifndef _IIC_H
 #define _IIC_H
 
-#include <inttypes.h>
-#include "main.h"
+
 #define IIC_WR	0		/* Ğ´¿ØÖÆbit */
 #define IIC_RD	1		/* ¶Á¿ØÖÆbit */
 

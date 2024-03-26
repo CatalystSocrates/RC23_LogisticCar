@@ -1,5 +1,5 @@
 #include "delayus.h"
-#include "main.h"
+#include "system.h"
 
 __IO float usDelayBase;
 void usDelayTest(void)

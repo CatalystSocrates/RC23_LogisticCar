@@ -1,6 +1,5 @@
 #include "TCS34725.h"
-#include "main.h"
-#include "stdio.h"
+#include "system.h"
 
 #define us_num 50
 

@@ -13,7 +13,7 @@ void Set_Pwmb(int moto);  //赋值给PWM寄存器
 void Set_Pwmc(int moto);  //赋值给PWM寄存器
 void Key(void);  //按键修改运行状态 
 void Xianfu_Pwm(void);  //限制PWM幅值
-int myabs(int a);   //取绝对值
+
 int Incremental_PI (int Encoder,int Target);
 int Position_PID (int position,int target);
 int Incremental_PIA (int Encoder,int Target);

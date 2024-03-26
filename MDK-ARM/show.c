@@ -1,17 +1,10 @@
 #include "show.h"
-#include "main.h"
-#include "tim.h"
-#include "encoder.h"
-#include "DataScop_DP.h"
-#include "usart.h"
-extern float pitch,roll,yaw; 		    
-extern short aacx,aacy,aacz;			
-extern short gyrox,gyroy,gyroz;		
-extern float temp;
-extern float Aacx,Aacy,Aacz,Gyrox,Gyroy;
-extern int pwma, pwmb,pwmc, pwmd;
-extern COLOR_HSL hsl;
-extern int EncoderA,EncoderB,EncoderC,Target_Velocity;
+//#include "main.h"
+#include "system.h"
+//#include "encoder.h"
+//#include "DataScop_DP.h"
+//#include "usart.h"
+
 void screenshow(void){  
 		ST7735_DrawFloat(5, 10, KF_X(Aacy,Aacz, -Gyrox)*100 , ST7735_WHITE, ST7735_BLACK, &Font_7x10);
     ST7735_DrawFloat(5, 25, KF_Y(Aacx,Aacz, Gyroy)*100 , ST7735_WHITE, ST7735_BLACK, &Font_7x10);

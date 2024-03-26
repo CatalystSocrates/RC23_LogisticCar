@@ -1,6 +1,7 @@
 #include "stm32f1xx_hal.h"
 #include "mpu6050.h"
-
+#include <inttypes.h>
+#include "system.h"
 #include "stm32f1xx_hal.h"
 
 /* 定义IIC总线连接的GPIO端口, 用户只需要修改下面4行代码即可任意改变SCL和SDA的引脚 */

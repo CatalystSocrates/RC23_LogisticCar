@@ -40,6 +40,7 @@
 "car\kf.o"
 "car\tcs34725.o"
 "car\delayus.o"
+"car\system.o"
 "car\encoder.o"
 "car\datascop_dp.o"
 "car\control.o"

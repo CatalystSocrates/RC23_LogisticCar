@@ -1,11 +1,6 @@
 #include "control.h"	
-#include "main.h"
-#include "tim.h"
-#include "encoder.h"
-#include <math.h>
-extern int Moto;
-extern int EncoderA,EncoderB,EncoderC,Target_Velocity; //编码器的脉冲计数
-extern float Velocity_KP,Velocity_KI,Velocity_KD; //PID系数
+
+#include "system.h"
 
 /**************************************************************************
 函数功能：赋值给PWM寄存器
@@ -24,7 +19,7 @@ void Set_Pwma(int moto)
 			  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_1, GPIO_PIN_SET); 
  	      HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET);
 			}
-			PWMA=myabs(moto);
+			PWMA=abs(moto);
 }
 void Set_Pwmb(int moto)
 {
@@ -38,7 +33,7 @@ void Set_Pwmb(int moto)
 			  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_1, GPIO_PIN_SET); 
  	      HAL_GPIO_WritePin(GPIOC, GPIO_PIN_0, GPIO_PIN_RESET);
 			}
-			PWMB=myabs(moto);
+			PWMB=abs(moto);
 }
 void Set_Pwmc(int moto)
 {
@@ -52,7 +47,7 @@ void Set_Pwmc(int moto)
 			  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_3, GPIO_PIN_SET); 
  	      HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, GPIO_PIN_RESET);
 			}
-			PWMC=myabs(moto);
+			PWMC=abs(moto);
 }
 
 /**************************************************************************
@@ -67,18 +62,6 @@ void Xianfu_Pwm(void)
 		if(Moto>Amplitude)  Moto=Amplitude;		
 }
 
-/**************************************************************************
-函数功能：取绝对值
-入口参数：int
-返回  值：unsigned int
-**************************************************************************/
-int myabs(int a)
-{ 		   
-	  int temp;
-		if(a<0)  temp=-a;  
-	  else temp=a;
-	  return temp;
-}
 
 /**************************************************************************
 函数功能：增量PI控制器
@@ -121,7 +104,7 @@ int Incremental_PIC (int Encoder,int Target)
 
 
 void Setspeeds(double V_x,double V_y,double W){
-    
+	
 	  double Va;
     double Vb;
     double Vc;
